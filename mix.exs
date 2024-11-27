@@ -26,7 +26,8 @@ defmodule Socrata.MixProject do
       {:ecto_sqlite3, "~> 0.17.5"},
       {:req, "~> 0.5.7"},
       {:postgrex, "~> 0.19.3"},
-      {:oban, "~> 2.17"}
+      {:oban, "~> 2.17"},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end
 end
