@@ -27,6 +27,7 @@ defmodule Socrata.MixProject do
       {:req, "~> 0.5.7"},
       {:postgrex, "~> 0.19.3"},
       {:oban, "~> 2.17"},
+      # {:oban_web, "~> 2.11"},
       {:tz, "~> 0.28"},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]

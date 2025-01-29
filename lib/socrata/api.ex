@@ -30,17 +30,45 @@ defmodule Socrata.Api do
   delete all records in the Socrata dataset
   """
   def delete_all() do
-    case query("$select": ":id") do
-      %Req.Response{status: 200, body: body} ->
-        Enum.map(body, fn %{":id" => id} -> delete(id) end)
-        |> IO.inspect()
+    api_key = get_auth_info()
 
-      %Req.Response{status: 404} ->
-        IO.puts("No data found")
+    query("$select": ":id", "$limit": 50_000)
+    |> delete_all(api_key)
+  end
 
-      other ->
-        IO.puts("Unknown response: #{inspect(other)}")
-    end
+  def delete_all(%Req.Response{status: 200, body: []}, _api_key) do
+    IO.puts("done")
+  end
+
+  def delete_all(%Req.Response{status: 200, body: body}, api_key) do
+    delete(body, api_key)
+
+    :timer.sleep(10_000)
+
+    query("$select": ":id", "$limit": 50_000)
+    |> delete_all(api_key)
+  end
+
+  def delete_all(%Req.Response{status: 404}, _api_key) do
+    IO.puts("No data found")
+  end
+
+  def delete_all(other) do
+    raise "Unknown response #{inspect(other)}"
+  end
+
+  defp delete(body, api_key) do
+    data =
+      body
+      |> Enum.map(fn x -> Map.put(x, ":deleted", true) end)
+      |> Jason.encode!()
+
+    Req.post(
+      "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json",
+      auth: {:basic, "#{api_key[:key]}:#{api_key[:secret]}"},
+      body: data
+    )
+    |> IO.inspect()
   end
 
   @doc """
@@ -56,9 +84,28 @@ defmodule Socrata.Api do
   end
 
   @doc """
-  write new data to the Socrata dataset
+  add multiple records to the dataset
   """
   def post(data) do
+    api_key = get_auth_info()
+
+    data =
+      data
+      |> IO.inspect()
+      |> Jason.encode!()
+      |> IO.inspect()
+
+    Req.post(
+      "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json",
+      auth: {:basic, "#{api_key[:key]}:#{api_key[:secret]}"},
+      body: data
+    )
+  end
+
+  @doc """
+  update or add one record to the Socrata dataset
+  """
+  def put(data) do
     api_key = get_auth_info()
 
     data =

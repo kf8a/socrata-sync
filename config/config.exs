@@ -32,4 +32,11 @@ config :elixir, :time_zone_database, Tz.TimeZoneDatabase
 config :socrata, Oban,
   engine: Oban.Engines.Lite,
   queues: [default: 10],
-  repo: ObanRepo
+  repo: ObanRepo,
+  plugins: [
+    {Oban.Plugins.Pruner, max_age: 60 * 60 * 24 * 7},
+    {Oban.Plugins.Cron,
+     crontab: [
+       {"@daily", Socrata.Workers.UpdateWorker}
+     ]}
+  ]

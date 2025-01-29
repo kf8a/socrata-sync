@@ -15,7 +15,9 @@ defmodule Socrata.FiveMinuteData do
              :air_pressure,
              :par,
              :short_wave_in,
-             :long_wave_in
+             :long_wave_in,
+             :battery_voltage,
+             :logger_temperature
            ]}
 
   use Ecto.Schema
@@ -37,5 +39,7 @@ defmodule Socrata.FiveMinuteData do
     field(:par, :float)
     field(:short_wave_in, :float)
     field(:long_wave_in, :float)
+    field(:battery_voltage, :float)
+    field(:logger_temperature, :float)
   end
 end
