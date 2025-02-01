@@ -26,8 +26,6 @@ defmodule Socrata do
     |> Enum.chunk_every(100_000)
     |> Enum.each(fn chunk -> Socrata.Api.post(chunk) end)
 
-    IO.puts("Done")
-
     :ok
   end
 
