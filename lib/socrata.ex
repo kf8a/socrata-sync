@@ -25,6 +25,10 @@ defmodule Socrata do
     |> Enum.map(fn record -> Map.put(record, :date_time, DateTime.to_naive(record.date_time)) end)
     |> Enum.chunk_every(100_000)
     |> Enum.each(fn chunk -> Socrata.Api.post(chunk) end)
+
+    IO.puts("Done")
+
+    :ok
   end
 
   def deleta_all() do

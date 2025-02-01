@@ -3,6 +3,7 @@ defmodule Socrata.Workers.UpdateWorker do
 
   @impl true
   def perform(_args) do
+    IO.puts("Updating data")
     Socrata.add()
   end
 end

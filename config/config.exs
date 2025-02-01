@@ -31,7 +31,7 @@ config :elixir, :time_zone_database, Tz.TimeZoneDatabase
 
 config :socrata, Oban,
   engine: Oban.Engines.Lite,
-  queues: [default: 10],
+  queues: [default: 10, scheduled: 10],
   repo: ObanRepo,
   plugins: [
     {Oban.Plugins.Pruner, max_age: 60 * 60 * 24 * 7},
