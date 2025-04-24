@@ -23,6 +23,8 @@ export SOCRATA_API_KEY=your_socrata_api_key
 export SOCRATA_DOMAIN=your_socrata_domain
 export SOCRATA_DATASET_ID=your_socrata_dataset_id
 export DB_URL=your_ecto_db_url_for the weather data
+
+mix ecto.migrate -r 
 ```
 
 ## Usage
