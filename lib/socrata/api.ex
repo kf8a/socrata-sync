@@ -28,6 +28,10 @@ defmodule Socrata.Api do
 
   @doc """
   delete all records in the Socrata dataset
+
+  We need to do this recursively because the Socrata API only
+  allows us to delete 50,000 records at a time. And we need to sleep,
+  since the API will return before the data is actually deleted.
   """
   def delete_all() do
     api_key = get_auth_info()
@@ -91,9 +95,7 @@ defmodule Socrata.Api do
 
     data =
       data
-      |> IO.inspect()
       |> Jason.encode!()
-      |> IO.inspect()
 
     Req.post(
       "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json",
@@ -117,7 +119,6 @@ defmodule Socrata.Api do
       auth: {:basic, "#{api_key[:key]}:#{api_key[:secret]}"},
       body: data
     )
-    |> IO.inspect()
   end
 
   defp get_auth_info() do
