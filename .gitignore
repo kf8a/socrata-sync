@@ -30,3 +30,4 @@ socrata.db*
 
 # Ignore runtime config
 .env
+.DS_Store
