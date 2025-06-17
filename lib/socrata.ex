@@ -5,6 +5,10 @@ defmodule Socrata do
 
   import Ecto.Query
 
+  @doc """
+  Add new FiveMinuteData records to Socrata
+
+  """
   def add() do
     {:ok, last_sample} =
       case Socrata.Api.get_last_sample() do
@@ -12,7 +16,6 @@ defmodule Socrata do
         {:ok, last_sample} -> {:ok, last_sample}
         {:error, _} -> {:ok, nil}
       end
-      |> IO.inspect()
 
     twenty_four_hours_ago = DateTime.utc_now() |> DateTime.add(-24, :hour)
 
@@ -29,6 +32,9 @@ defmodule Socrata do
     :ok
   end
 
+  @doc """
+  Delete all FiveMinuteData records from Socrata
+  """
   def deleta_all() do
     Socrata.Api.delete_all()
   end
