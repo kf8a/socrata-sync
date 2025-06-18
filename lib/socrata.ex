@@ -12,14 +12,14 @@ defmodule Socrata do
     creds = Application.fetch_env!(:socrata, Socrata)
 
     %Socrata.Api.Credentials{
-      api_key: creds[:socrata_api_key],
-      api_secret: creds[:socrata_app_token]
+      api_key: creds[:api_key],
+      api_secret: creds[:app_token]
     }
   end
 
   def get_url do
-    creds = Application.fetch_env!(:socrata, Socrata)
-    creds[:socrata_domain] <> "/resource/" <> creds[:socrata_dataset_id] <> ".json"
+    creds = Application.fetch_env!(:socrata, Dataset)
+    "https://" <> creds[:domain] <> "/resource/" <> creds[:dataset_id] <> ".json"
   end
 
   @doc """
@@ -27,7 +27,6 @@ defmodule Socrata do
 
   """
   def add() do
-    # url = "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json"
     url = get_url()
     credentials = get_credentials()
 
