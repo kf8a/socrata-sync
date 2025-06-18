@@ -1,11 +1,13 @@
 import Config
 
 config :socrata, Socrata,
-  socrata_app_token: System.fetch_env!("SOCRATA_APP_TOKEN"),
-  socrata_api_key: System.fetch_env!("SOCRATA_API_KEY"),
+  app_token: System.fetch_env!("SOCRATA_APP_TOKEN"),
+  api_key: System.fetch_env!("SOCRATA_API_KEY")
+
+config :socrata, Dataset,
   # "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json"
-  socrata_domain: System.fetch_env!("SOCRATA_DOMAIN"),
-  socrata_dataset_id: System.fetch_env!("SOCRATA_DATASET_ID")
+  domain: System.fetch_env!("SOCRATA_DOMAIN"),
+  dataset_id: System.fetch_env!("SOCRATA_DATASET_ID")
 
 database_url =
   System.fetch_env!("DATABASE_URL") ||

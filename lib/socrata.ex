@@ -6,12 +6,33 @@ defmodule Socrata do
   import Ecto.Query
 
   @doc """
+  Get Socrata credentials from configuration
+  """
+  def get_credentials do
+    creds = Application.fetch_env!(:socrata, Socrata)
+
+    %Socrata.Api.Credentials{
+      api_key: creds[:socrata_api_key],
+      api_secret: creds[:socrata_app_token]
+    }
+  end
+
+  def get_url do
+    creds = Application.fetch_env!(:socrata, Socrata)
+    creds[:socrata_domain] <> "/resource/" <> creds[:socrata_dataset_id] <> ".json"
+  end
+
+  @doc """
   Add new FiveMinuteData records to Socrata
 
   """
   def add() do
+    # url = "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json"
+    url = get_url()
+    credentials = get_credentials()
+
     {:ok, last_sample} =
-      case Socrata.Api.get_last_sample() do
+      case Socrata.Api.get_last_sample(url, credentials) do
         {:ok, nil} -> DateTime.new(~D[2015-01-01], ~T[00:00:00.000], "Etc/UTC")
         {:ok, last_sample} -> {:ok, last_sample}
         {:error, _} -> {:ok, nil}
@@ -27,7 +48,7 @@ defmodule Socrata do
     |> Socrata.Repo.all(timeout: :infinity)
     |> Enum.map(fn record -> Map.put(record, :date_time, DateTime.to_naive(record.date_time)) end)
     |> Enum.chunk_every(100_000)
-    |> Enum.each(fn chunk -> Socrata.Api.post(chunk) end)
+    |> Enum.each(fn chunk -> Socrata.Api.post(url, chunk, credentials) end)
 
     :ok
   end
@@ -35,8 +56,13 @@ defmodule Socrata do
   @doc """
   Delete all FiveMinuteData records from Socrata
   """
-  def deleta_all() do
-    Socrata.Api.delete_all()
+  def delete_all(url) do
+    credentials = get_credentials()
+
+    Socrata.Api.delete_all(
+      url,
+      credentials
+    )
   end
 
   def replace() do

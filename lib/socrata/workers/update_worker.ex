@@ -4,6 +4,5 @@ defmodule Socrata.Workers.UpdateWorker do
   @impl true
   def perform(_args) do
     Socrata.add()
-    :ok
   end
 end
