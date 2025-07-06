@@ -27,7 +27,9 @@ defmodule Socrata do
 
   """
   def add() do
-    url = get_url()
+    url =
+      get_url()
+
     credentials = get_credentials()
 
     {:ok, last_sample} =
@@ -47,7 +49,7 @@ defmodule Socrata do
     |> Socrata.Repo.all(timeout: :infinity)
     |> Enum.map(fn record -> Map.put(record, :date_time, DateTime.to_naive(record.date_time)) end)
     |> Enum.chunk_every(100_000)
-    |> Enum.each(fn chunk -> Socrata.Api.post(url, chunk, credentials) end)
+    |> Enum.each(fn chunk -> Socrata.Api.post(chunk, url, credentials) end)
 
     :ok
   end
