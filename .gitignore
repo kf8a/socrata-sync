@@ -31,3 +31,9 @@ socrata.db*
 # Ignore runtime config
 .env
 .DS_Store
+.cursor
+.vscode
+
+# convenince methods for test deploys
+excludes.txt
+upload.sh
