@@ -33,6 +33,7 @@ socrata.db*
 .DS_Store
 .cursor
 .vscode
+.cursorrules
 
 # convenince methods for test deploys
 excludes.txt
