@@ -17,8 +17,8 @@ defmodule Socrata.YieldData do
   end
 
   def get_url do
-    creds = Application.fetch_env!(:socrata, Dataset)
-    "https://" <> creds[:domain] <> "/resource/" <> creds[:yield_dataset_id] <> ".json"
+    datasets = Application.fetch_env!(:socrata, Datasets)
+    "https://" <> datasets[:domain] <> "/resource/" <> datasets[:yield_dataset_id] <> ".json"
   end
 
   @doc """
@@ -29,9 +29,7 @@ defmodule Socrata.YieldData do
    If there is, it adds the new data to the Socrata dataset
    If there is no more recent data, it does nothing
   """
-  def add_yield_data(data) do
-    data
-    |> Jason.encode!()
+  def add_yield_data() do
 
   end
 end
