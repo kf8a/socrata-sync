@@ -4,10 +4,11 @@ config :socrata, Socrata,
   app_token: System.fetch_env!("SOCRATA_APP_TOKEN"),
   api_key: System.fetch_env!("SOCRATA_API_KEY")
 
-config :socrata, Dataset,
+config :socrata, Datasets,
   # "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json"
   domain: System.fetch_env!("SOCRATA_DOMAIN"),
-  dataset_id: System.fetch_env!("SOCRATA_DATASET_ID")
+  weather_dataset_id: System.fetch_env!("SOCRATA_WEATHER_DATASET_ID"),
+  yield_dataset_id: System.fetch_env!("SOCRATA_YIELD_DATASET_ID")
 
 database_url =
   System.fetch_env!("DATABASE_URL") ||

@@ -18,8 +18,8 @@ defmodule Socrata do
   end
 
   def get_url do
-    creds = Application.fetch_env!(:socrata, Dataset)
-    "https://" <> creds[:domain] <> "/resource/" <> creds[:dataset_id] <> ".json"
+    creds = Application.fetch_env!(:socrata, Datasets)
+    "https://" <> creds[:domain] <> "/resource/" <> creds[:weather_dataset_id] <> ".json"
   end
 
   @doc """
