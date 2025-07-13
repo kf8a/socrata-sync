@@ -5,39 +5,18 @@ defmodule Socrata do
 
   import Ecto.Query
 
-  @doc """
-  Get Socrata credentials from configuration
-  """
-  def get_credentials do
-    creds = Application.fetch_env!(:socrata, Socrata)
-
-    %Socrata.Api.Credentials{
-      api_key: creds[:api_key],
-      api_secret: creds[:app_token]
-    }
-  end
-
-  def get_url do
+  def get_url() do
     creds = Application.fetch_env!(:socrata, Datasets)
     "https://" <> creds[:domain] <> "/resource/" <> creds[:weather_dataset_id] <> ".json"
   end
 
   @doc """
   Add new FiveMinuteData records to Socrata
-
   """
-  def add() do
-    url =
-      get_url()
-
+  def add(url \\ get_url()) do
     credentials = get_credentials()
 
-    {:ok, last_sample} =
-      case Socrata.Api.get_last_sample(url, credentials) do
-        {:ok, nil} -> DateTime.new(~D[2015-01-01], ~T[00:00:00.000], "Etc/UTC")
-        {:ok, last_sample} -> {:ok, last_sample}
-        {:error, _} -> {:ok, nil}
-      end
+    {:ok, last_sample} = get_last_sample(url, credentials)
 
     twenty_four_hours_ago = DateTime.utc_now() |> DateTime.add(-24, :hour)
 
@@ -48,10 +27,33 @@ defmodule Socrata do
     )
     |> Socrata.Repo.all(timeout: :infinity)
     |> Enum.map(fn record -> Map.put(record, :date_time, DateTime.to_naive(record.date_time)) end)
+    |> send_to_socrata(url, credentials)
+  end
+
+  @doc """
+  Send batches of data to Socrata
+
+  Socrata has a limit of 100,000 records per request.
+  This function sends the data in chunks of 100,000 records.
+  It returns the number of records sent.
+
+  TODO: Maybe this should be in the api module
+  """
+  def send_to_socrata(data, url, credentials) do
+    data
     |> Enum.chunk_every(100_000)
     |> Enum.each(fn chunk -> Socrata.Api.post(chunk, url, credentials) end)
+  end
 
-    :ok
+  @doc """
+  Get the most recent sample from Socrata
+  """
+  def get_last_sample(url, credentials) do
+    case Socrata.Api.get_last_sample(url, credentials) do
+      {:ok, nil} -> DateTime.new(~D[2015-01-01], ~T[00:00:00.000], "Etc/UTC")
+      {:ok, last_sample} -> {:ok, last_sample}
+      {:error, _} -> {:error, nil}
+    end
   end
 
   @doc """
@@ -69,17 +71,20 @@ defmodule Socrata do
   def replace() do
   end
 
-  def naive_eastern(%DateTime{} = dt) do
-    dt
-    |> DateTime.shift_zone!("EST")
-    |> DateTime.to_naive()
-  end
-
   def get_last_record() do
     from(u in Socrata.FiveMinuteData,
       order_by: [desc: u.date_time],
       limit: 1
     )
     |> Socrata.Repo.one()
+  end
+
+  defp get_credentials do
+    creds = Application.fetch_env!(:socrata, Socrata)
+
+    %Socrata.Api.Credentials{
+      api_key: creds[:api_key],
+      api_secret: creds[:app_token]
+    }
   end
 end
