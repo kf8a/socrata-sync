@@ -1,4 +1,4 @@
-defmodule Socrata.FiveMinuteData do
+defmodule Socrata.Data.FiveMinuteData do
   @derive {Jason.Encoder,
            only: [
              :site_id,

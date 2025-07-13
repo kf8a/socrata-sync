@@ -1,25 +1,11 @@
 defmodule Socrata.YieldData do
+  import Ecto.Query, only: [from: 2]
+
   @moduledoc """
   Functions to update the yield data in the Socrata dataset
   """
+
   # https://ars-datahub.data.socrata.com/resource/anb6-ymxg.json
-
-  @doc """
-  Get Socrata credentials from configuration
-  """
-  def get_credentials do
-    creds = Application.fetch_env!(:socrata, Socrata)
-
-    %Socrata.Api.Credentials{
-      api_key: creds[:api_key],
-      api_secret: creds[:app_token]
-    }
-  end
-
-  def get_url do
-    datasets = Application.fetch_env!(:socrata, Datasets)
-    "https://" <> datasets[:domain] <> "/resource/" <> datasets[:yield_dataset_id] <> ".json"
-  end
 
   @doc """
    Add new yield data to the Socrata dataset
@@ -30,6 +16,24 @@ defmodule Socrata.YieldData do
    If there is no more recent data, it does nothing
   """
   def add_yield_data() do
+    datasets = Application.fetch_env!(:socrata, Datasets)
+    url = Socrata.get_url(datasets[:domain], datasets[:yield_dataset_id])
+    {:ok, last_sample_date} = Socrata.get_last_sample(url)
 
+    from(u in Socrata.Data.CropYield,
+      where: u.harvest_date > ^last_sample_date,
+      order_by: [asc: u.harvest_date]
+    )
+    |> Socrata.Repo.all()
+    |> Socrata.send_to_socrata(url)
+  end
+
+  @doc """
+  Delete all yield data from the Socrata dataset
+  """
+  def delete_all() do
+    datasets = Application.fetch_env!(:socrata, Datasets)
+    url = Socrata.get_url(datasets[:domain], datasets[:yield_dataset_id])
+    Socrata.delete_all(url)
   end
 end
