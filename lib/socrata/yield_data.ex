@@ -18,11 +18,11 @@ defmodule Socrata.YieldData do
   def add_yield_data() do
     datasets = Application.fetch_env!(:socrata, Datasets)
     url = Socrata.get_url(datasets[:domain], datasets[:yield_dataset_id])
-    {:ok, last_sample_date} = Socrata.get_last_sample(url)
+    {:ok, last_sample_date} = Socrata.get_last_sample("date", url)
 
     from(u in Socrata.Data.CropYield,
-      where: u.harvest_date > ^last_sample_date,
-      order_by: [asc: u.harvest_date]
+      where: u.date > ^last_sample_date,
+      order_by: [asc: u.date]
     )
     |> Socrata.Repo.all()
     |> Socrata.send_to_socrata(url)

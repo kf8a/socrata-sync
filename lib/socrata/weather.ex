@@ -7,7 +7,7 @@ defmodule Socrata.Weather do
 
   def add() do
     url = get_url()
-    {:ok, last_sample} = Socrata.get_last_sample(get_url())
+    {:ok, last_sample} = Socrata.get_last_sample("date_time", get_url())
 
     twenty_four_hours_ago = DateTime.utc_now() |> DateTime.add(-24, :hour)
 
@@ -32,5 +32,13 @@ defmodule Socrata.Weather do
   defp get_url() do
     creds = Application.fetch_env!(:socrata, Datasets)
     "https://" <> creds[:domain] <> "/resource/" <> creds[:weather_dataset_id] <> ".json"
+  end
+
+  defp get_last_record() do
+    from(u in Socrata.Data.FiveMinuteData,
+      order_by: [desc: u.date_time],
+      limit: 1
+    )
+    |> Socrata.Repo.one()
   end
 end

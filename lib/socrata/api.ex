@@ -13,8 +13,8 @@ defmodule Socrata.Api do
   @doc """
   Return the date_time of the most recent record in the Socrata dataset
   """
-  def get_last_sample(url, credentials) do
-    case query(["$select": "max(date_time)"], url, credentials) do
+  def get_last_sample(time_field, url, credentials) do
+    case query(["$select": "max(#{time_field})"], url, credentials) do
       %Req.Response{status: 200, body: body} ->
         {:ok, hd(body)["max_date_time"]}
 
@@ -35,6 +35,7 @@ defmodule Socrata.Api do
   """
   def delete_all(url, credentials) do
     query(["$select": ":id", "$limit": 50_000], url, credentials)
+    |> IO.inspect()
     |> delete_all(url, credentials)
   end
 
@@ -43,12 +44,17 @@ defmodule Socrata.Api do
   end
 
   def delete_all(%Req.Response{status: 200, body: body}, url, credentials) do
+    IO.inspect(body, label: "body")
+
     delete(body, url, credentials)
+    |> IO.inspect(label: "delete")
 
     :timer.sleep(10_000)
 
     query(["$select": ":id", "$limit": 50_000], url, credentials)
+    |> IO.inspect()
     |> delete_all(url, credentials)
+    |> IO.inspect(label: "delete_all")
   end
 
   def delete_all(%Req.Response{status: 404}, _url, _credentials) do
