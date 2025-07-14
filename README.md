@@ -1,6 +1,6 @@
 # Socrata
 
-An application to sync weather data with Socrata.
+An application to sync weather and other data with Socrata.
 
 ## Approach
 
