@@ -38,3 +38,4 @@ socrata.db*
 # convenince methods for test deploys
 excludes.txt
 upload.sh
+*.pem
