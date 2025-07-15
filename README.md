@@ -1,6 +1,6 @@
 # Socrata
 
-An application to sync weather data with Socrata.
+An application to sync weather and crop yield data with Socrata.
 
 ## Approach
 
@@ -21,7 +21,8 @@ TODO:
 export SOCRATA_APP_TOKEN=your_socrata_app_token
 export SOCRATA_API_KEY=your_socrata_api_key
 export SOCRATA_DOMAIN=your_socrata_domain
-export SOCRATA_DATASET_ID=your_socrata_dataset_id
+export SOCRATA_WEATHER_DATASET_ID=your_weather_dataset_id
+export SOCRATA_YIELD_DATASET_ID=your_crop_yield_dataset_id
 export DB_URL=your_ecto_db_url_for the weather data
 
 mix ecto.migrate -r ObanRepo
