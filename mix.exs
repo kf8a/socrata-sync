@@ -30,6 +30,7 @@ defmodule Socrata.MixProject do
       {:igniter, "~> 0.5"},
       # {:oban_web, "~> 2.11"},
       {:tz, "~> 0.28"},
+      {:telemetry_metrics_prometheus, "~> 1.1"},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
