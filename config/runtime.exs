@@ -19,5 +19,4 @@ database_url =
 
 config :socrata, Socrata.Repo,
   url: database_url,
-  ssl: true,
-  ssl_opts: [verify: :verify_none]
+  ssl: [verify: :verify_none]
