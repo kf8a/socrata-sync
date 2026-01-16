@@ -25,7 +25,7 @@ defmodule Socrata.MixProject do
       {:ecto_sql, "~> 3.12"},
       {:ecto_sqlite3, "~> 0.17"},
       {:req, "~> 0.5.7"},
-      {:postgrex, "~> 0.21.0"},
+      {:postgrex, "~> 0.22.0"},
       {:oban, "~> 2.17"},
       {:igniter, "~> 0.5"},
       # {:oban_web, "~> 2.11"},
