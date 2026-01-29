@@ -20,7 +20,8 @@ defmodule Socrata.Anpp do
     url = Socrata.get_url(datasets[:domain], datasets[:anpp_dataset_id])
     {:ok, last_sample_date} = Socrata.get_last_sample("date", url)
 
-    get_anpp_after_date(last_sample_date)
+    # get_anpp_after_date(last_sample_date)
+    get_anpp_after_date()
     |> Socrata.send_to_socrata(url)
   end
 
@@ -28,7 +29,9 @@ defmodule Socrata.Anpp do
   Get all ANPP records, ordered by date ascending.
   """
   def get_anpp_after_date() do
-    from(u in Socrata.Data.Anpp, order_by: [asc: u.date])
+    from(u in Socrata.Data.Anpp,
+      where: u.date > ^~D[2022-01-01],
+      order_by: [asc: u.date])
     |> Socrata.Repo.all()
   end
 
