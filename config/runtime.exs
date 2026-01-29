@@ -8,7 +8,9 @@ config :socrata, Datasets,
   # "https://ars-datahub.data.socrata.com/resource/8a69-vy3a.json"
   domain: System.fetch_env!("SOCRATA_DOMAIN"),
   weather_dataset_id: System.fetch_env!("SOCRATA_WEATHER_DATASET_ID"),
-  yield_dataset_id: System.fetch_env!("SOCRATA_YIELD_DATASET_ID")
+  sellable_product_dataset_id: System.fetch_env!("SOCRATA_SELLABLE_PRODUCT_DATASET_ID"),
+  anpp_dataset_id: System.fetch_env!("SOCRATA_ANPP_DATASET_ID")
+  # yield_dataset_id: System.fetch_env!("SOCRATA_YIELD_DATASET_ID")
 
 database_url =
   System.fetch_env!("DATABASE_URL") ||

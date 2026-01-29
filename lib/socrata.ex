@@ -21,7 +21,7 @@ defmodule Socrata do
 
     data
     |> Enum.chunk_every(100_000)
-    |> Enum.each(fn chunk -> Socrata.Api.post(chunk, url, credentials) end)
+    |> Enum.map(fn chunk -> Socrata.Api.post(chunk, url, credentials) end)
   end
 
   @doc """
