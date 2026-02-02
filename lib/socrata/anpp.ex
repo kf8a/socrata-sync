@@ -22,6 +22,7 @@ defmodule Socrata.Anpp do
 
     # get_anpp_after_date(last_sample_date)
     get_anpp_after_date()
+    |> Enum.map(fn record -> Sentinel.replace_nulls_with_sentinel(record) end)
     |> Socrata.send_to_socrata(url)
   end
 
