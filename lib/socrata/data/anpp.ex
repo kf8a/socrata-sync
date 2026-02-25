@@ -24,7 +24,7 @@ defmodule Socrata.Data.Anpp do
     field(:aboveground_biomass_c_conc, :decimal)
     field(:aboveground_biomass_n_conc, :decimal)
     field(:aboveground_biomass_p_conc, :decimal)
-    field(:aboveground_biomass_k_conc, :string)
+    field(:aboveground_biomass_k_conc, :decimal)
     field(:aboveground_biomass_s_conc, :decimal)
     field(:aboveground_biomass_adf_conc, :decimal)
     field(:aboveground_biomass_ash_conc, :decimal)

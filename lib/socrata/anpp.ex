@@ -7,6 +7,8 @@ defmodule Socrata.Anpp do
   Dataset: https://ars-datahub.data.socrata.com/resource/4p6n-5gyf.json
   """
 
+  alias Socrata.Data.Sentinel
+
   @doc """
   Add new ANPP data to the Socrata dataset.
 
