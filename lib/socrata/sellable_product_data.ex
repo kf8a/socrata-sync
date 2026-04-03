@@ -19,10 +19,8 @@ defmodule Socrata.SellableProductData do
     datasets = Application.fetch_env!(:socrata, Datasets)
     url = Socrata.get_url(datasets[:domain], datasets[:sellable_product_dataset_id])
     {:ok, last_sample_date} = Socrata.get_last_sample("date", url)
-    |> IO.inspect(label: "last_sample_date")
 
     get_sellable_products_after_date(last_sample_date)
-    |> IO.inspect(label: "sellable_products")
     |> Socrata.send_to_socrata(url)
   end
 

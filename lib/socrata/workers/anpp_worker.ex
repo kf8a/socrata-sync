@@ -1,4 +1,5 @@
 defmodule Socrata.Workers.AnppWorker do
+  @moduledoc false
   use Oban.Worker, queue: :scheduled, max_attempts: 1
 
   @impl true

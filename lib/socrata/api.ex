@@ -35,7 +35,6 @@ defmodule Socrata.Api do
   """
   def delete_all(url, credentials) do
     query(["$select": ":id", "$limit": 50_000], url, credentials)
-    |> IO.inspect()
     |> delete_all(url, credentials)
   end
 
@@ -44,17 +43,12 @@ defmodule Socrata.Api do
   end
 
   def delete_all(%Req.Response{status: 200, body: body}, url, credentials) do
-    IO.inspect(body, label: "body")
-
     delete(body, url, credentials)
-    |> IO.inspect(label: "delete")
 
     :timer.sleep(10_000)
 
     query(["$select": ":id", "$limit": 50_000], url, credentials)
-    |> IO.inspect()
     |> delete_all(url, credentials)
-    |> IO.inspect(label: "delete_all")
   end
 
   def delete_all(%Req.Response{status: 404}, _url, _credentials) do

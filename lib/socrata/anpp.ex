@@ -20,7 +20,7 @@ defmodule Socrata.Anpp do
   def add_anpp_data() do
     datasets = Application.fetch_env!(:socrata, Datasets)
     url = Socrata.get_url(datasets[:domain], datasets[:anpp_dataset_id])
-    {:ok, last_sample_date} = Socrata.get_last_sample("date", url)
+    {:ok, _last_sample_date} = Socrata.get_last_sample("date", url)
 
     # get_anpp_after_date(last_sample_date)
     get_anpp_after_date()
