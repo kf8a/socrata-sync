@@ -18,7 +18,8 @@ config :socrata, Oban,
     {Oban.Plugins.Pruner, max_age: 60 * 60 * 24 * 7},
     {Oban.Plugins.Cron,
      crontab: [
-      #  {"@daily", Socrata.Workers.UpdateWorker, args: %{}},
-      #  {"5 4 2 * *", Socrata.Workers.SellableProductYield, args: %{}}
+       {"@daily", Socrata.Workers.UpdateWorker, args: %{}},
+       {"@monthly", Socrata.Workers.StaticGasFluxWorker, args: %{}},
+       {"5 4 2 * *", Socrata.Workers.SellableProductYield, args: %{}}
      ]}
   ]
