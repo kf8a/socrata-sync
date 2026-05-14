@@ -50,5 +50,4 @@ defmodule Socrata.SellableProductData do
     url = Socrata.get_url(datasets[:domain], datasets[:sellable_product_dataset_id])
     Socrata.delete_all(url)
   end
-
 end

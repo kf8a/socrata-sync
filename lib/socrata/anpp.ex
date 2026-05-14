@@ -34,7 +34,8 @@ defmodule Socrata.Anpp do
   def get_anpp_after_date() do
     from(u in Socrata.Data.Anpp,
       where: u.date > ^~D[2022-01-01],
-      order_by: [asc: u.date])
+      order_by: [asc: u.date]
+    )
     |> Socrata.Repo.all()
   end
 
