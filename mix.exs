@@ -34,6 +34,7 @@ defmodule Socrata.MixProject do
       {:tz, "~> 0.28"},
       {:telemetry_metrics_prometheus, "~> 1.1"},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
+      {:credence, "~> 0.4.3", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
@@ -48,19 +49,7 @@ defmodule Socrata.MixProject do
       skills: [
         location: ".agents/skills",
         # build skills that combine multiple usage rules
-        build: [
-          "ash-framework": [
-            # The description tells people how to use this skill.
-            description: "Use this skill working with Ash Framework or any of its extensions. Always consult this when making any domain changes, features or fixes.",
-            # Include all Ash dependencies
-            usage_rules: [:ash, ~r/^ash_/]
-          ],
-          "phoenix-framework": [
-            description: "Use this skill working with Phoenix Framework. Consult this when working with the web layer, controllers, views, liveviews etc.",
-            # Include all Phoenix dependencies
-            usage_rules: [:phoenix, ~r/^phoenix_/]
-          ]
-        ]
+        build: []
       ]
     ]
   end
