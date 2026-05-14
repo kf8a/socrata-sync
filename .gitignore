@@ -34,6 +34,7 @@ socrata.db*
 .cursor
 .vscode
 .cursorrules
+.expert
 
 # convenince methods for test deploys
 excludes.txt
