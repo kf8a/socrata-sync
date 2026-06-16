@@ -26,7 +26,7 @@ defmodule Socrata.MixProject do
       {:usage_rules, "~> 1.0", only: [:dev]},
       {:ecto_sql, "~> 3.12"},
       {:ecto_sqlite3, "~> 0.17"},
-      {:req, "~> 0.5.7"},
+      {:req, "~> 0.5"},
       {:postgrex, "~> 0.22.0"},
       {:oban, "~> 2.17"},
       {:igniter, "~> 0.5"},
@@ -34,7 +34,7 @@ defmodule Socrata.MixProject do
       {:tz, "~> 0.28"},
       {:telemetry_metrics_prometheus, "~> 1.1"},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
-      {:credence, "~> 0.4.3", only: [:dev, :test], runtime: false},
+      {:credence, "~> 0.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
